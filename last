@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>last.fm: recientes</title>
+  <style>
+    /* nerdfont */
+    @font-face {
+        font-family: NF;
+        src: url(fonts/JetBrainsMonoNLNerdFont-Regular.ttf);
+    }
+
+    /* body */
+    html, body {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    body {
+        background-color: #232323;
+        color: #d0d0d0;
+        font-family: NT, monospace;
+        font-size: 15px;
+    }
+
+    a {
+        color: #d0d0d0;
+        font-size: 25px;
+        margin-top: 25px;
+        margin-bottom: 25px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+
+    #scrobbles {
+        width: 80%;
+        margin-bottom: 5%;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #444;
+    }
+
+    tr:nth-child(odd) {
+        background-color: #333;
+    }
+
+    tr:nth-child(even) {
+        background-color: #2b2b2b;
+    }
+  </style>
+</head>
+<body>
+  <a href="https://last.fm/user/amarillosolido">last.fm: recientes</a>
+  <div id="scrobbles">
+    <table>
+      <thead>
+        <tr>
+          <th>Track</th>
+          <th>Artist</th>
+          <th>Album</th>
+        </tr>
+      </thead>
+      <tbody id="tracks-list"></tbody>
+    </table>
+  </div>
+
+  <script>
+    const API_KEY = 'bc30898fd261443649a4ac31cd2692e6'; // Replace with your Last.fm API key
+    const USERNAME = 'amarillosolido'; // Replace with your Last.fm username
+    const API_URL = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${USERNAME}&api_key=${API_KEY}&format=json`;
+
+    async function fetchScrobbles() {
+      try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+
+        if (data.recenttracks && data.recenttracks.track) {
+          displayTracks(data.recenttracks.track);
+        } else {
+          document.getElementById('scrobbles').innerText = 'No tracks found.';
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        document.getElementById('scrobbles').innerText = 'Error fetching scrobbles.';
+      }
+    }
+
+    function displayTracks(tracks) {
+      const tracksList = document.getElementById('tracks-list');
+      tracksList.innerHTML = ''; // Clear any existing content
+
+      tracks.forEach(track => {
+        const trackRow = document.createElement('tr');
+
+        const trackName = document.createElement('td');
+        const trackText = track.name + (track['@attr']?.nowplaying ? ' (reproduciendo)' : '');
+        trackName.textContent = trackText;
+
+        const artistName = document.createElement('td');
+        artistName.textContent = track.artist['#text'];
+
+        const albumName = document.createElement('td');
+        albumName.textContent = track.album['#text'] || 'N/A';
+
+        trackRow.appendChild(trackName);
+        trackRow.appendChild(artistName);
+        trackRow.appendChild(albumName);
+
+        tracksList.appendChild(trackRow);
+      });
+    }
+
+    // Fetch and display scrobbles on page load
+    fetchScrobbles();
+  </script>
+</body>
+</html>
