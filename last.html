@@ -69,14 +69,14 @@
   </style>
 </head>
 <body>
-  <a href="https://last.fm/user/amarillosolido">last.fm: recientes</a>
+  <a href="https://last.fm/user/amarillosolido">last.fm/user/amarillosolido</a>
   <div id="scrobbles">
     <table>
       <thead>
         <tr>
-          <th>Track</th>
-          <th>Artist</th>
-          <th>Album</th>
+          <th>Fecha</th>
+          <th>Pista</th>
+          <th>Artista</th>
         </tr>
       </thead>
       <tbody id="tracks-list"></tbody>
@@ -110,20 +110,26 @@
 
       tracks.forEach(track => {
         const trackRow = document.createElement('tr');
+        // Date
+        const dateCell = document.createElement('td');
+              if (track.date) {
+                // Format the timestamp to a human-readable date
+                const date = new Date(track.date.uts * 1000);
+                dateCell.textContent = date.toLocaleString();
+              } else {
+                dateCell.textContent = 'Reproduciendo'; // For currently playing tracks
+              }
 
         const trackName = document.createElement('td');
-        const trackText = track.name + (track['@attr']?.nowplaying ? ' (reproduciendo)' : '');
+        const trackText = track.name;
         trackName.textContent = trackText;
 
         const artistName = document.createElement('td');
         artistName.textContent = track.artist['#text'];
 
-        const albumName = document.createElement('td');
-        albumName.textContent = track.album['#text'] || 'N/A';
-
+        trackRow.appendChild(dateCell)
         trackRow.appendChild(trackName);
         trackRow.appendChild(artistName);
-        trackRow.appendChild(albumName);
 
         tracksList.appendChild(trackRow);
       });
@@ -131,6 +137,7 @@
 
     // Fetch and display scrobbles on page load
     fetchScrobbles();
+    setInterval(fetchScrobbles, 15000);
   </script>
 </body>
 </html>
