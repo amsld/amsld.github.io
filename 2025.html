@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>velour</title>
 <style>
     /* nerdfont */
@@ -13,31 +14,23 @@
     /* body */
     html, body {
         margin: 0;
+        padding: 0;
         display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
-    }
-    body {
         background-color: #232323;
         color: #d0d0d0;
+        font-family: NF, sans-serif;
     }
-    /* divs */
+
+    /* contenido */
     #content {
-        text-align: justify; /* Centrar el texto del contenido */
-        font-family: NF; font-size: 20px; color: #d0d0d0;
-        margin-left: 10%;
-        margin-right: 10%;
-        margin-top: 50px;
-        margin-bottom: 50px;
+        text-align: left;
+        font-size: 15px;
+        margin: 50px 10%;
     }
-    .img {
-        text-align: center; /* Centrar el texto del contenido */
-        font-family: NF; font-size: 20px; color: #d0d0d0;
-        margin-left: 10%;
-        margin-right: 10%;
-    }
-    /* tags */
+
+    /* links */
     a {
         color: #d0d0d0;
         text-decoration: none;
@@ -45,7 +38,49 @@
     }
     a:hover {
         text-decoration: underline;
-        font-weight: bold;  
+    }
+
+    /* galería */
+    .gallery {
+        column-count: 2; /* Number of columns */
+        column-gap: 15px; /* Space between columns */
+        width: 90%;
+        max-width: 1200px;
+    }
+    /* Medium viewports (e.g., tablets or small laptops) */
+    @media (min-width: 600px) {
+        .gallery {
+            column-count: 2; /* Increase to 2 columns */
+        }
+    }
+
+    /* Large viewports (e.g., desktops or landscape mode) */
+    @media (min-width: 900px) {
+        .gallery {
+            column-count: 3; /* Increase to 3 columns */
+        }
+    }
+
+    /* Extra large viewports (e.g., wide screens) */
+    @media (min-width: 1200px) {
+        .gallery {
+            column-count: 4; /* Increase to 4 columns */
+        }
+    }
+
+    /* items */
+    .gallery-item {
+        break-inside: avoid; /* Prevent items from breaking across columns */
+        margin-bottom: 15px; /* Space between items */
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* fotos */
+    .gallery-item img {
+        width: 100%;
+        height: auto; /* Maintain original aspect ratio */
+        display: block;
     }
 </style>
 </head>
@@ -53,15 +88,22 @@
     <div id="content">
         x ahora: mood board 2025 (o una breve curaduría de mi pinterest xd)
     </div>
-    <div class="img">
-        <div style="display: flex; justify-content: center; align-items: center;">
-            <img src="https://i.pinimg.com/736x/9b/a1/5e/9ba15ef15c7275dcd169bc2daad32e1e.jpg" alt="Image 1" style="max-width: 45%; margin: 5px;">
-            <img src="https://i.pinimg.com/736x/4b/9e/92/4b9e92f95fcb8adfa187b44782fc4762.jpg" alt="Image 2" style="max-width: 45%; margin: 5px;">
+    <div class="gallery">
+        <div class="gallery-item">
+            <img src="https://i.pinimg.com/736x/9b/a1/5e/9ba15ef15c7275dcd169bc2daad32e1e.jpg" alt="Photo 1">
         </div>
-        <br>
-        <div style="display: flex; justify-content: center; align-items: center;">
-            <img src="https://i.pinimg.com/736x/76/c0/42/76c04222702f9dac2b1513c3c4b6aab7.jpg" alt="Image 1" style="max-width: 45%; margin: 5px;">
-            <img src="https://i.pinimg.com/736x/64/2c/0b/642c0b409bc4429412f52fd009fc3adf.jpg" alt="Image 2" style="max-width: 45%; margin: 5px;">
+        <div class="gallery-item">
+            <img src="https://i.pinimg.com/736x/4b/9e/92/4b9e92f95fcb8adfa187b44782fc4762.jpg" alt="Photo 2">
+        </div>
+        <div class="gallery-item">
+            <img src="https://i.pinimg.com/736x/76/c0/42/76c04222702f9dac2b1513c3c4b6aab7.jpg" alt="Photo 3">
+        </div>
+        <div class="gallery-item">
+            <img src="https://i.pinimg.com/736x/64/2c/0b/642c0b409bc4429412f52fd009fc3adf.jpg" alt="Photo 4">
+        </div>
+        <div class="gallery-item">
+            <img src="https://i.pinimg.com/736x/27/89/8a/27898a32d5d058ec84a4a44eb6deadb4.jpg" alt="Photo 5">
         </div>
     </div>
 </body>
+</html>

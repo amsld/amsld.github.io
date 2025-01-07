@@ -108,32 +108,45 @@
       const tracksList = document.getElementById('tracks-list');
       tracksList.innerHTML = ''; // Clear any existing content
 
-      tracks.forEach(track => {
+      // Limit to a maximum of 15 tracks
+      const maxTracks = 20;
+      const limitedTracks = tracks.slice(0, maxTracks);
+
+      limitedTracks.forEach(track => {
         const trackRow = document.createElement('tr');
+        
         // Date
         const dateCell = document.createElement('td');
-              if (track.date) {
-                // Format the timestamp to a human-readable date
-                const date = new Date(track.date.uts * 1000);
-                dateCell.textContent = date.toLocaleString();
-              } else {
-                dateCell.textContent = 'Reproduciendo'; // For currently playing tracks
-              }
+        if (track.date) {
+          // Format the timestamp to a human-readable date
+          const date = new Date(track.date.uts * 1000);
+          dateCell.textContent = date.toLocaleString('es-ES', {
+            year:"2-digit",
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+          }
+          );
+        } else {
+          dateCell.textContent = 'Reproduciendo'; // For currently playing tracks
+        }
 
         const trackName = document.createElement('td');
-        const trackText = track.name;
-        trackName.textContent = trackText;
+        trackName.textContent = track.name;
 
         const artistName = document.createElement('td');
         artistName.textContent = track.artist['#text'];
 
-        trackRow.appendChild(dateCell)
+        trackRow.appendChild(dateCell);
         trackRow.appendChild(trackName);
         trackRow.appendChild(artistName);
 
         tracksList.appendChild(trackRow);
       });
     }
+
 
     // Fetch and display scrobbles on page load
     fetchScrobbles();
